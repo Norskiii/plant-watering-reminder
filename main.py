@@ -1,6 +1,7 @@
 from sense_hat import SenseHat, ACTION_PRESSED, ACTION_HELD, ACTION_RELEASED
 import time
 import math
+import os
 
 
 sense = SenseHat()
@@ -53,8 +54,11 @@ def pushed_middle(event):
 
 def watering_animation():
     global animation
-    sense.set_pixel(0,0, 255, 0,0)
-    time.sleep(2.0)
+    frames = os.listdir("animation_frames")
+    frames.sort()
+    for frame in frames:
+        sense.load_image("animation_frames/"+frame)
+        time.sleep(0.1)
 
     #animation finished
     animation = False
@@ -80,13 +84,12 @@ def main():
             colour = [0, 255, 50]
         
         if animation:
-            print("animation")
             watering_animation()
         else:
             if text_hours:
-                sense.show_message("Hours: " + str(hours), text_colour = colour, scroll_speed = speed)
+                sense.show_message("Hours : " + str(hours), text_colour = colour, scroll_speed = speed)
             else:
-                sense.show_message("Days: " + str(days), text_colour = colour, scroll_speed = speed)
+                sense.show_message("Days : " + str(days), text_colour = colour, scroll_speed = speed)
 
 
 if __name__ == "__main__":
