@@ -14,6 +14,7 @@ speed = 0.1
 # Show hours or days
 text_hours = True
 off = False
+animation = False
 
 
 def pushed_up(event):
@@ -44,8 +45,19 @@ def pushed_right(event):
 
 def pushed_middle(event):
     global watering_time
+    global animation
     if event.action == ACTION_PRESSED:
+        animation = True
         watering_time = event.timestamp
+
+
+def watering_animation():
+    global animation
+    sense.set_pixel(0,0, 255, 0,0)
+    time.sleep(2.0)
+
+    #animation finished
+    animation = False
 
 
 def main():
@@ -66,11 +78,15 @@ def main():
             colour = [255, 0, 50]
         else:
             colour = [0, 255, 50]
-
-        if text_hours:
-            sense.show_message("Hours: " + str(hours), text_colour = colour, scroll_speed = speed)
+        
+        if animation:
+            print("animation")
+            watering_animation()
         else:
-            sense.show_message("Days: " + str(days), text_colour = colour, scroll_speed = speed)
+            if text_hours:
+                sense.show_message("Hours: " + str(hours), text_colour = colour, scroll_speed = speed)
+            else:
+                sense.show_message("Days: " + str(days), text_colour = colour, scroll_speed = speed)
 
 
 if __name__ == "__main__":
