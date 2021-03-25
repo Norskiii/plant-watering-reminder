@@ -8,7 +8,9 @@ sense = SenseHat()
 sense.rotation = 180
 sense.low_light = True
 
-watering_time = time.time()
+with open ("watering_time.txt") as file:
+    watering_time = float(file.readline())
+
 colour = [0, 255, 50]
 speed = 0.1
 
@@ -50,6 +52,9 @@ def pushed_middle(event):
     if event.action == ACTION_PRESSED:
         animation = True
         watering_time = event.timestamp
+        
+        with open("watering_time.txt", "w") as file:
+            file.write(str(watering_time))
 
 
 def watering_animation():
