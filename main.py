@@ -5,7 +5,6 @@ import os
 
 
 sense = SenseHat()
-sense.rotation = 180
 sense.low_light = True
 
 with open ("watering_time.txt") as file:
@@ -35,15 +34,15 @@ def pushed_down(event):
 def pushed_left(event):
     global speed
     if event.action == ACTION_PRESSED:
-        if speed > 0.05:
-            speed -= 0.02
+        if speed < 0.3:
+            speed += 0.02
 
 
 def pushed_right(event):
     global speed
     if event.action == ACTION_PRESSED:
-        if speed < 0.3:
-            speed += 0.02
+        if speed > 0.05:
+            speed -= 0.02
 
 
 def pushed_middle(event):
